@@ -8,14 +8,59 @@ const router = express.Router();
 
 
 //get all products
+let arr = [];   
 router.get('/', async (req,res) => {
-    const products = await Product.find({}).lean().exec();
-    res.render('products/all.ejs', {
-        products,
-    });
+     let research = '';
+     let category = '';
+     console.log(req.query.cat);
+    if ( req.query.amc === undefined || req.query.amc === ''){
+        research = '';
+    }
+    else { 
+         research = req.query.amc.trim().split(','); 
+    }
+    if ( req.query.cat === undefined || req.query.cat === ''){
+        category = '';
+    }
+    else { 
+         category = req.query.cat.trim().split(','); 
+         category.pop();
+    }
+    
+
+
+    console.log(research);
+    console.log(category);
+    let products = [];
+
+    if ( research === ''){
+        const products = await Product.find({}).lean().exec();
+        res.render('products/all.ejs', {
+            products,
+        });
+
+    }
+    else {
+        
+            products = await Product.find({$and: [{ amc : {$in : research} },  { category : {$in : category} }]}).lean().exec();
+            
+        }
+        console.log(products.length);
+        
+        res.render('products/all.ejs', {
+            products,
+        });
+   
+  // console.log(products.length);
+    // console.log(products);
+    // res.render('products/all.ejs', {
+    //     products,
+    // });
+
 });
 
 //get single products by id
+
 
 router.get('/:id', async(req,res) => {
     console.log(req.params.id);
@@ -25,5 +70,7 @@ router.get('/:id', async(req,res) => {
         product,
     })
 })
+
+
 
 module.exports = router;

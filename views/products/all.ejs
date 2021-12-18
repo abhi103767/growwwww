@@ -16,11 +16,128 @@
   <% })%> -->
   <div class="container">
     <div class="left_container">
+        <div class="left">
+
+            <div class="filter_section_one">
+                <div class="filterHeading">FILTERS</div>
+                <div id="clearFilterBtn" onclick="clear_Tick()">Clear All</div>
+            </div>
+
+        <div class="filter_section scroll">
+        <div class="filterHeading">AMC</div>
+        <div class="box">
+            <input type="checkbox" value="Axis" class="checkbox amctick" id="axis" >
+            <label for="axisMF">Axis Mutual Fund</label> 
+        </div>
+        <div class="box">
+          <input type="checkbox" value="ICICI" class="checkbox amctick" id="icici">
+          <label for="iciciMF">ICICI Prudential Technology</label> 
+      </div>
+      <div class="box">
+          <input type="checkbox" value="HDFC" class="checkbox amctick" id="hdfc">
+          <label for="hdfcMF">HDFC</label> 
+      </div>
+      <div class="box">
+        <input type="checkbox" value="TATA" class="checkbox amctick" id="tata">
+        <label for="tata">TATA Digital India</label> 
+    </div>
+    <div class="box">
+        <input type="checkbox" value="Paragh Parikh" class="checkbox amctick" id="">
+        <label for="">Paragh Parikh</label> 
+    </div>
+   
+    <div class="box">
+        <input type="checkbox" value="UTI" class="checkbox amctick" id="">
+        <label for="">UTI Flexi Cap</label> 
+    </div> 
+    <div class="box">
+        <input type="checkbox" value="Kotak" class="checkbox amctick" id="">
+        <label for="">Kotak Bluechip Funds</label> 
+    </div>
+    <div class="box">
+        <input type="checkbox" value="Aditya Birla" class="checkbox amctick" id="">
+        <label for="">Aditya Birla Sun Life</label> 
+    </div>
+    <div class="box">
+        <input type="checkbox" value="Nippon India Pharma" class="checkbox amctick" id="">
+        <label for="">Nippon India Pharma</label> 
+    </div>
+    <div class="box">
+        <input type="checkbox" value="SBI" class="checkbox amctick" id="">
+        <label for="">SBI Technology Oppurtunities Fund</label> 
+    </div>
+
+
+ </div> 
+
+
+ <div class="filter_section cat">
+    <div class="filterHeading ">Category</div>
+    <div class="box">
+        <input type="checkbox" value="Debt" class="checkbox c_tick" >
+        <label for="">Debt</label> 
+    </div>
+    <div class="box">
+      <input type="checkbox" value="Equity" class="checkbox  c_tick" >
+      <label for="">Equity</label> 
+  </div>
+  <div class="box">
+      <input type="checkbox" value="Hybrid" class="checkbox  c_tick" >
+      <label for="">Hybrid</label> 
+  </div>
+  <div class="box">
+    <input type="checkbox" value="others" class="checkbox  c_tick" >
+    <label for="">Others</label> 
+</div>
+</div> 
+
+
+<div class="filter_section">
+    <div class="filterHeading">Risk</div>
+    <div class="box">
+        <input type="checkbox" value="Low Risk" class="checkbox R_tick" >
+        <label for="">Low</label> 
+    </div>
+    <div class="box">
+      <input type="checkbox" value="Moderate Risk" class="checkbox R_tick" >
+      <label for="">Moderate </label> 
+  </div>
+  <div class="box">
+      <input type="checkbox" value="High Risk" class="checkbox R_tick" >
+      <label for="">High</label> 
+  </div>
+ 
+</div> 
+
+<div class="filter_section">
+    <div class="filterHeading">Fund Size</div>
+    <div class="box">
+        <input type="checkbox" value="2" class="checkbox F_tick" >
+        <label for="">Upto 1,000cr</label> 
+    </div>
+    <div class="box">
+      <input type="checkbox" value="4" class="checkbox F_tick" >
+      <label for="">Upto 2,000cr </label> 
+  </div>
+  <div class="box">
+      <input type="checkbox" value="10" class="checkbox F_tick" >
+      <label for="">Upto 5,000cr</label> 
+  </div>
+  <div class="box">
+    <input type="checkbox" value="20" class="checkbox F_tick" >
+    <label for="">Upto 10,000cr</label> 
+</div>
+ 
+</div> 
+
+
+
+</div>
           
     </div>
        <div class="right_container">
         <% products.forEach(product  => { %>
-            <div class="box" onclick="clickedProductName('<%= JSON.stringify(product) %>')">
+            <div class="box1" onclick="clickedProductName('<%= JSON.stringify(product) %>')">
                 <div class="inner_box">
                 <div class= "left_box">
                     <div class="upper_left_box fx">
@@ -67,6 +184,117 @@
      console.log(newProduct.price);
      window.location.href = `http://localhost:444/products/${newProduct._id}`
     }
+
+
+    let checks = document.getElementsByClassName('checkbox');
+    let inputs = document.getElementsByTagName('input');
+    let arr = [];
+    if ( localStorage.getItem('filter') === null){
+        localStorage.setItem('filter', JSON.stringify([]));
+    }
+    if ( localStorage.getItem('indexes') === null){
+        localStorage.setItem('indexes', JSON.stringify([]));
+    }
+ 
+    function filter(){
+        let newArr = JSON.parse(localStorage.getItem('filter')); 
+        let nayaarr = JSON.parse(localStorage.getItem('indexes'));
+        let amc = 'amc=';
+        let cat = 'cat=';
+        let fund = 'fund=';
+        let risk = 'risk=';
+    
+       
+        if ( newArr.length == 0){
+        }
+        for ( let i = 0; i < nayaarr.length; i++){
+            if (nayaarr[i] < 10){
+           amc += inputs[nayaarr[i]].value+",";
+            }
+
+         else if (nayaarr[i] >= 10 && nayaarr[i] < 13 ) {
+          cat += inputs[nayaarr[i]].value+',';
+         }
+         else if ( nayaarr[i] >= 13 && nayaarr[i] < 16 ){
+             risk += inputs[nayaarr[i]].value+',';
+         }
+         else {
+             fund +=  inputs[nayaarr[i]].value+',';
+         }
+        }
+        console.log(nayaarr);
+
+        for ( let i = 0; i <  nayaarr.length; i++){
+            inputs[nayaarr[i]].checked = true;
+        }
+        console.log(amc);
+        let url = 'http://localhost:444/products?'+amc +'&'+ cat + '&' + risk + '&' + fund;
+        console.log(url)
+    
+        return url;
+      
+    }
+
+    console.log(filter());
+
+    
+    // console.log(inputs[1].value)
+    function showProduct(){
+  for ( let i = 0; i < inputs.length; i++){
+        inputs[i].addEventListener('click', function(){
+           
+            let newArr = JSON.parse(localStorage.getItem('filter'));
+            let nayaarr = JSON.parse(localStorage.getItem('indexes'));
+            ;
+            console.log(inputs[i].checked);
+            if ( inputs[i].checked == false){
+               for ( let j = 0; j < newArr.length; j++){
+                   console.log(newArr[j]);
+                   if ( newArr[j] === inputs[i].value )
+                       newArr.splice(j,j+1);
+               }
+               for ( let j = 0; j < nayaarr.length; j++){
+                  if ( nayaarr[j] === i ){
+                      nayaarr.splice(j,j+1);
+                  }
+               }
+                
+            }
+
+            else {
+                nayaarr.push(i);
+                newArr.push(inputs[i].value)
+
+            }
+   
+            console.log(nayaarr)
+            console.log(newArr)
+         
+
+            localStorage.setItem('indexes', JSON.stringify(nayaarr));
+            localStorage.setItem('filter', JSON.stringify(newArr));
+            window.location.href  = filter(); 
+            inputs[i].checked;
+        });
+     }
+    }
+
+    showProduct();
+    console.log(arr);
+    //  let arr = [1,2,3,4,5]
+    //  arr.forEach(element => console.log(element));
+  function clear_Tick(){
+    let newArr = JSON.parse(localStorage.getItem('filter'));
+    let nayaarr = JSON.parse(localStorage.getItem('indexes'));
+    newArr = [];
+    nayaarr = [];
+    localStorage.setItem('indexes', JSON.stringify(nayaarr));
+            localStorage.setItem('filter', JSON.stringify(newArr));
+            window.location.href = 'http://localhost:444/products?'
+  }
+
+
+
     </script>
        
 </body>
