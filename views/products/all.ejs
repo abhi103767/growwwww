@@ -212,10 +212,10 @@
            amc += inputs[nayaarr[i]].value+",";
             }
 
-         else if (nayaarr[i] >= 10 && nayaarr[i] < 13 ) {
+         else if (nayaarr[i] >= 10 && nayaarr[i] < 14 ) {
           cat += inputs[nayaarr[i]].value+',';
          }
-         else if ( nayaarr[i] >= 13 && nayaarr[i] < 16 ){
+         else if ( nayaarr[i] >= 13 && nayaarr[i] < 17 ){
              risk += inputs[nayaarr[i]].value+',';
          }
          else {
@@ -230,7 +230,6 @@
         console.log(amc);
         let url = 'http://localhost:444/products?'+amc +'&'+ cat + '&' + risk + '&' + fund;
         console.log(url)
-    
         return url;
       
     }
@@ -248,14 +247,16 @@
             ;
             console.log(inputs[i].checked);
             if ( inputs[i].checked == false){
-               for ( let j = 0; j < newArr.length; j++){
-                   console.log(newArr[j]);
-                   if ( newArr[j] === inputs[i].value )
-                       newArr.splice(j,j+1);
-               }
                for ( let j = 0; j < nayaarr.length; j++){
-                  if ( nayaarr[j] === i ){
-                      nayaarr.splice(j,j+1);
+                  if ( nayaarr[j] === i ){ 
+                 if ( localStorage.getItem('exp') === null){
+                     localStorage.setItem('exp',JSON.stringify([]));
+                 }
+                 let exp = JSON.parse(localStorage.getItem('exp'));
+                 console.log(exp);
+
+                              nayaarr.splice(j,j+1);
+                       
                   }
                }
                 
